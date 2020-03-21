@@ -1,0 +1,67 @@
+
+.register{
+    width: 100%;
+    margin-top: 5rem;
+    
+}
+
+.container{
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.5);
+    margin-top: 10rem;
+    padding-bottom: 20rem;
+}
+
+.header{
+    padding: 5rem;
+    font-size: 3rem;
+}
+
+.form{
+
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.input{
+    padding: 1rem;
+    font-size: 1.8rem;
+    margin: 1rem;
+}
+
+.submit{
+    padding: 1rem;
+    font-size: 1.8rem;
+    color: white;
+    background: green;
+    margin: 0 auto;
+    margin-top: 3rem;
+    width: calc(100% - 2rem);
+    cursor: pointer;
+    
+}
+
+.submit:hover{
+    background: rgb(5, 102, 5);
+    font-size: 1.7rem;
+    font-weight: 500;
+    
+}
+
+
+.login{
+    margin-top: 3rem;
+    font-size: 1.4rem;
+    color: blue;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.login:hover{
+    text-decoration: underline;
+}
