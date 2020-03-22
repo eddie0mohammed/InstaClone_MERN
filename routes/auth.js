@@ -30,6 +30,13 @@ router.get('/', checkAuth, authController.getUser);
 
 
 
+// @route   GET /auth/:userId
+// @desc    get user
+// @access  Private
+router.get('/validate/:token', authController.activateUser);
+
+
+
 
 
 module.exports = router;

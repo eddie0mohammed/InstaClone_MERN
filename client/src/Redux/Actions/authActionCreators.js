@@ -6,6 +6,8 @@ import * as actionTypes from './actionTypes';
 import {returnErrors } from './errorActionCreators';
 
 
+
+
 //setup config/headers and token
 export const tokenConfig = (getState) => {
     //get token from local storage

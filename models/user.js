@@ -28,9 +28,22 @@ const userSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         default: false
+    },
+
+    activationToken: {
+        type: String
     }
 
 });
+
+
+userSchema.methods.createUserActivationToken = function(){
+    const activationToken = crypto.randomBytes(32).toString('hex');
+
+    this.activationToken = crypto.createHash('256').update(activationToken).digest('hex');
+
+    return activationToken;
+}
 
 
 module.exports = mongoose.model('User', userSchema);

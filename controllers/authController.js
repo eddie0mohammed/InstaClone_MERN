@@ -1,9 +1,10 @@
 
-
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const sendMail = require('../utils/email');
 
 
 const register = async (req, res, next) => {
@@ -31,18 +32,36 @@ const register = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+    //activationToken
+    const activationToken = crypto.randomBytes(32).toString('hex');
+    // console.log(activationToken);
+    // const hashedToken = await bcrypt.hash(activationToken, salt);
+    
 
     const newUser = new User({
         userName: req.body.userName,
         email: req.body.email,
-        password: hashedPassword
+        password: hashedPassword,
+        activationToken: activationToken
+
     });
 
     
+    //activation url
+    const activationURL = `${req.protocol}://${req.get('host')}/auth/validate/${activationToken}`;
+    
+    //message
+    const message = `Click here to activate your profile and login: ${activationURL}`;
     try{
 
         await newUser.save();
 
+        //send email
+        await sendMail({
+            email: 'test@test.com',
+            subject: 'ACTIVATION EMAIL',
+            message: message
+        });
 
         res.status(201).json({
             status: 'success',
@@ -105,7 +124,7 @@ const login = async (req, res, next) => {
         }
 
         //token
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: 3600});
         res.header('auth-token', token);
 
         res.status(200).json({
@@ -159,8 +178,45 @@ const getUser = async (req, res, next) => {
 }
 
 
+const activateUser = async (req, res, next) => {
+
+    const token = req.params.token;
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedToken = await bcrypt.hash(token, salt);
+
+    try{
+
+        const user = await User.findOne({activationToken: token});
+    
+        if (!user){
+            return res.status(400).json({
+                status: 'fail',
+                error: 'User not found',
+                hashedToken: hashedToken
+            });
+        }
+
+        user.active = true;
+        await user.save() ;
+        res.redirect('http://localhost:3000/auth/login');
+        
+        // return res.status(200).json({
+        //     status: 'success',
+        //     user: user
+        // });
+
+
+    }catch(err){
+        console.log(err);
+    }
+
+    
+}
+
+
 module.exports = {
     register: register,
     login: login,
-    getUser: getUser
+    getUser: getUser,
+    activateUser: activateUser
 }

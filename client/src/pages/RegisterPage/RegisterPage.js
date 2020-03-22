@@ -38,7 +38,7 @@ class Register extends React.Component{
         // redirect if successfully registered
         if (this.props.registered){
             this.props.clearErrors();
-            this.props.history.push('/auth/login');
+            this.props.history.push('/confirm-email');
         }
     }
 

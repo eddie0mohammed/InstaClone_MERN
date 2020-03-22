@@ -12,6 +12,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPassword';
 import PasswordResetPage from './pages/PasswordResetPage/PasswordReset';
 import NotFound from './pages/NotFound/NotFound';
 import Gallery from './pages/Gallery/Gallery';
+import ConfirmEmail from './pages/ConfirmEmailPage/ConfirmEmail';
 
 import {connect} from 'react-redux';
 
@@ -39,6 +40,7 @@ class App extends React.Component {
           <Route path='/forgotpassword' exact component={ForgotPasswordPage} />
           <Route path='/resetpassword' exact component={PasswordResetPage} />
           <Route path='/gallery' exact component={Gallery} />
+          <Route path='/confirm-email' exact component={ConfirmEmail} />
           <Route exact component={NotFound} />
 
         </Switch>
