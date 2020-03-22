@@ -20,6 +20,7 @@ class Login extends React.Component{
 
     componentDidMount(){
         this.props.turnRegisterToFalse();
+        this.props.resetResetPasswordChanged();
     }
 
     componentDidUpdate(prevProps){
@@ -99,7 +100,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         turnRegisterToFalse: () => dispatch(authActionCreators.turnRegisterToFalse()),
         login: (email, password) => dispatch(authActionCreators.login(email, password)),
-        clearErrors: () => dispatch(clearErrors())
+        clearErrors: () => dispatch(clearErrors()),
+        resetResetPasswordChanged: () => dispatch(authActionCreators.reset_resetPassword_state()),
     }
 }
 

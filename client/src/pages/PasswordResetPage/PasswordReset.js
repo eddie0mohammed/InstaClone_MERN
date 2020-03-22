@@ -3,6 +3,10 @@ import React from 'react';
 
 import styles from './PasswordReset.module.css';
 
+import {connect} from 'react-redux';
+
+import * as authActionCreators from '../../Redux/Actions/authActionCreators';
+
 
 
 class PasswordReset extends React.Component{
@@ -10,8 +14,17 @@ class PasswordReset extends React.Component{
 
     state = {
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        token: ''
     }
+
+    componentDidMount(){
+        const token = this.props.match.params.token;
+        this.setState({
+            token: token
+        });
+    }
+
 
     handleInputChange = (e) => {
         this.setState({
@@ -19,21 +32,19 @@ class PasswordReset extends React.Component{
         });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(this.state);
-
-        this.setState({
-            password: '',
-            confirmPassword: ''
-
-        });
+        if (this.state.password === this.state.confirmPassword && this.state.token){
+            await this.props.resetPassword(this.state.password, this.state.token);
+            
+            this.props.history.push('/auth/login');
+        }
     }
 
 
     render(){
-
+        
         return (
             <div className={styles.login}>
 
@@ -62,4 +73,16 @@ class PasswordReset extends React.Component{
     }
 }
 
-export default PasswordReset;
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        resetPassword: (email, token) => dispatch(authActionCreators.resetPassword(email, token)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);

@@ -32,7 +32,10 @@ const userSchema = new mongoose.Schema({
 
     activationToken: {
         type: String
-    }
+    },
+
+    passwordResetToken: String,
+    passwordResetExpires: Date
 
 });
 

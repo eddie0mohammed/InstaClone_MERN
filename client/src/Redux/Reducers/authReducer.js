@@ -9,7 +9,10 @@ const initialState = {
     isAuthenticated: null,
     isLoading: false,
     user: null,
-    registered: false
+    registered: false,
+    passwordReset: '',
+    passwordResetSuccess: ''
+
 
 };
 
@@ -70,6 +73,30 @@ const authReducer = (state = initialState, action) => {
             return{
                 ...state,
                 registered: false
+            }
+
+        case (actionTypes.FORGOT_PASSWORD):
+            return {
+                ...state,
+                passwordReset: action.payload.status
+            }
+
+        case (actionTypes.RESET_FORGOT_PASSWORD):
+            return {
+                ...state,
+                passwordReset: ''
+            }
+
+        case (actionTypes.PASSWORD_CHANGED):
+            return {
+                ...state,
+                passwordResetSuccess: action.payload.status
+            }
+
+        case (actionTypes.RESET_PASSWORD_CHANGED):
+            return {
+                ...state,
+                passwordResetSuccess: ''
             }
 
 

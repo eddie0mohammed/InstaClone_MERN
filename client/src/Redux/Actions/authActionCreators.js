@@ -149,3 +149,69 @@ export const turnRegisterToFalse = () => {
         type: actionTypes.TURN_REGISTERED_TO_FALSE
     }
 }
+
+
+export const resetForgotPasswordState = () => {
+    return {
+        type: actionTypes.RESET_FORGOT_PASSWORD
+    }
+}
+
+
+export const forgotPassword = (email) => async (dispatch) => {
+
+    try{
+        //headers
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        //body
+        const body = JSON.stringify({email: email});
+        
+        const res = await axios.post('http://localhost:8080/auth/forgotPassword', body, config);
+
+        dispatch({
+            type: actionTypes.FORGOT_PASSWORD,
+            payload: res.data
+        });
+
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+
+export const resetPassword = (password, token) => async (dispatch) => {
+
+    try{
+        //headers
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+         //body
+         const body = JSON.stringify({password: password});
+
+        const res = await axios.post(`http://localhost:8080/auth/resetPassword/${token}`, body, config);
+
+        dispatch({
+            type: actionTypes.PASSWORD_CHANGED,
+            payload: res.data
+        });
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const reset_resetPassword_state = () => {
+    return {
+        type: actionTypes.RESET_PASSWORD_CHANGED
+    }
+}

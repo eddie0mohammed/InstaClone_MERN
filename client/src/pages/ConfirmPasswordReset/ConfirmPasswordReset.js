@@ -1,17 +1,17 @@
 
 import React from 'react';
 
-import styles from './ConfirmEmail.module.css';
+import styles from './ConfirmPasswordReset.module.css';
 
 import {Link } from 'react-router-dom';
 import {connect } from 'react-redux';
 
 import * as authActionCreators from '../../Redux/Actions/authActionCreators';
 
-class ConfirmEmail extends React.Component{
+class ConfirmPasswordReset extends React.Component{
 
     componentDidMount(){
-        this.props.turnRegisterToFalse();
+        this.props.resetForgotPassword();
     }
 
     render(){
@@ -22,8 +22,8 @@ class ConfirmEmail extends React.Component{
                 
                 <div className={styles.container}>
 
-                    <h1 className={styles.header}>Confirmation Email Sent To Your Inbox</h1> 
-                    <h3 className={styles.message}>Please confirm your email in order to login</h3> 
+                    <h1 className={styles.header}>Password Reset Link Sent To Your Inbox</h1> 
+                    <h3 className={styles.message}>Please use the provided link to change your password</h3> 
 
                     <Link to='/auth/login' className={styles.home}>LOGIN</Link>
 
@@ -41,8 +41,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        turnRegisterToFalse: () => dispatch(authActionCreators.turnRegisterToFalse()),
+        resetForgotPassword: () => dispatch(authActionCreators.resetForgotPasswordState()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmEmail);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmPasswordReset);

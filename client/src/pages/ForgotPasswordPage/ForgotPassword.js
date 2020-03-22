@@ -3,6 +3,9 @@ import React from 'react';
 
 import styles from './ForgotPassword.module.css';
 
+import {connect} from 'react-redux';
+
+import * as authActionCreators from '../../Redux/Actions/authActionCreators';
 
 
 class ForgotPassword extends React.Component{
@@ -12,21 +15,22 @@ class ForgotPassword extends React.Component{
         email: '',
     }
 
+    componentDidUpdate(prevProps){
+        if (prevProps.passwordReset !== this.props.passwordReset){
+            this.props.history.push('/confirm-passwordReset');
+        }
+    }
+
     handleInputChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(this.state);
-
-        this.setState({
-            email: '',
-
-        });
+       await this.props.forgotPassword(this.state.email);
     }
 
 
@@ -59,4 +63,17 @@ class ForgotPassword extends React.Component{
     }
 }
 
-export default ForgotPassword;
+
+const mapStateToProps = (state) => {
+    return {
+        passwordReset: state.auth.passwordReset
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        forgotPassword: (email) => dispatch(authActionCreators.forgotPassword(email)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
